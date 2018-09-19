@@ -22,7 +22,7 @@ import UIKit
 /// modal.modalPresentationStyle = .custom
 /// present(modal, animated: true, completion: nil)
 /// ```
-public final class DeckTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+open class DeckTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
     // MARK: - Private variables
     
@@ -96,7 +96,7 @@ public final class DeckTransitioningDelegate: NSObject, UIViewControllerTransiti
     ///   - presenting: The view controller that will be presenting the modal
     ///   - source: The view controller whose `present` method is called
     /// - Returns: An animation controller that animates the modal presentation
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    open func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return DeckPresentingAnimationController(duration: presentDuration)
     }
     
@@ -107,7 +107,7 @@ public final class DeckTransitioningDelegate: NSObject, UIViewControllerTransiti
     ///
     /// - Parameter dismissed: The modal view controller which will be dismissed
     /// - Returns: An animation controller that animates the modal dismisall
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    open func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return DeckDismissingAnimationController(duration: dismissDuration)
     }
     
@@ -122,7 +122,7 @@ public final class DeckTransitioningDelegate: NSObject, UIViewControllerTransiti
     ///   - source: The view controller whose `present` method was called to
     ///     present the modal
     /// - Returns: A presentation controller that manages the modal presentation
-    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let presentationController = DeckPresentationController(
             presentedViewController: presented,
             presenting: presenting,

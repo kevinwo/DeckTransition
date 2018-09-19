@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class DeckPresentationController: UIPresentationController, UIGestureRecognizerDelegate, DeckSnapshotUpdater {
+open class DeckPresentationController: UIPresentationController, UIGestureRecognizerDelegate, DeckSnapshotUpdater {
     
     // MARK: - Internal variables
     
@@ -72,7 +72,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
         self.dismissThreshold = dismissThreshold
         self.extraVerticalInset = extraVerticalInset
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateForStatusBar), name: .UIApplicationDidChangeStatusBarFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateForStatusBar), name: UIApplication.didChangeStatusBarFrameNotification, object: nil)
     }
 
     // MARK: - Public methods
@@ -95,7 +95,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
         return 1 - (ManualLayout.presentingViewTopInset * 2 / containerView.frame.height)
     }
 	
-    override var frameOfPresentedViewInContainerView: CGRect {
+    override open var frameOfPresentedViewInContainerView: CGRect {
         guard let containerView = containerView else {
             return .zero
         }
@@ -110,7 +110,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
 	
 	// MARK: - Presentation
     
-    override func presentationTransitionWillBegin() {
+    override open func presentationTransitionWillBegin() {
         guard let containerView = containerView, let window = containerView.window else {
             return
         }
@@ -245,7 +245,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     ///
     /// It also sets up the gesture recognizer to handle dismissal of the modal
     /// view controller by panning downwards
-    override func presentationTransitionDidEnd(_ completed: Bool) {
+    override open func presentationTransitionDidEnd(_ completed: Bool) {
         guard let containerView = containerView else {
             return
         }
@@ -286,7 +286,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     /// the transition is janky unless it's updated before, hence it's performed
     /// here as well, It's also an inexpensive method since constraints are
     /// modified only when a change is actually needed
-    override func containerViewWillLayoutSubviews() {
+    override open func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
         
         guard let containerView = containerView else {
@@ -294,7 +294,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
         }
         
         updateSnapshotViewAspectRatio()
-        containerView.bringSubview(toFront: roundedViewForPresentedView)
+        containerView.bringSubviewToFront(roundedViewForPresentedView)
         
         if presentedViewController.view.isDescendant(of: containerView) {
             UIView.animate(withDuration: 0.1) { [weak self] in
@@ -314,7 +314,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     /// express purpose of this method is to update the snapshot view since that
     /// is a relatively expensive operation and only makes sense on orientation
     /// change
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(
@@ -456,7 +456,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     /// the dismissal animation, so this method effectively removes them and
     /// restores the state of the `presentingViewController`'s view to the
     /// expected state at the end of the presenting animation
-    override func dismissalTransitionWillBegin() {
+    override open func dismissalTransitionWillBegin() {
         guard let containerView = containerView else {
             return
         }
@@ -534,7 +534,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     
     /// Method to ensure the layout is as required at the end of the dismissal.
     /// This is required in case the modal is dismissed without animation.
-    override func dismissalTransitionDidEnd(_ completed: Bool) {
+    override open func dismissalTransitionDidEnd(_ completed: Bool) {
         guard let containerView = containerView else {
             return
         }
@@ -638,10 +638,10 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
             }
         }
     }
-    
+
     // MARK: - UIGestureRecognizerDelegate methods
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+
+    private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         guard gestureRecognizer.isEqual(pan) else {
             return false
         }
