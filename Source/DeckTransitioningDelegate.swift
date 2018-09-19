@@ -24,15 +24,15 @@ import UIKit
 /// ```
 open class DeckTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
-    // MARK: - Private variables
+    // MARK: - Variables
     
-    private let isSwipeToDismissEnabled: Bool
-    private let presentDuration: TimeInterval?
-    private let presentAnimation: (() -> ())?
-    private let presentCompletion: ((Bool) -> ())?
-    private let dismissDuration: TimeInterval?
-    private let dismissAnimation: (() -> ())?
-    private let dismissCompletion: ((Bool) -> ())?
+    public let isSwipeToDismissEnabled: Bool
+    public let presentDuration: TimeInterval?
+    public let presentAnimation: (() -> ())?
+    public let presentCompletion: ((Bool) -> ())?
+    public let dismissDuration: TimeInterval?
+    public let dismissAnimation: (() -> ())?
+    public let dismissCompletion: ((Bool) -> ())?
     
     /// Determines how far the modal view controller needs to be swiped before its dismissed.
     public var dismissThreshold: CGFloat = 240

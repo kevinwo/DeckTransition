@@ -10,7 +10,7 @@ import UIKit
 
 open class DeckPresentationController: UIPresentationController, UIGestureRecognizerDelegate, DeckSnapshotUpdater {
     
-    // MARK: - Internal variables
+    // MARK: - Public variables
     
     /// The presentation controller holds a strong reference to the
     /// transitioning delegate because `UIViewController.transitioningDelegate`
@@ -20,39 +20,39 @@ open class DeckPresentationController: UIPresentationController, UIGestureRecogn
     /// Since the transitioningDelegate only vends the presentation controller
     /// object and does not hold a reference to it, there is no issue of a
     /// circular dependency here.
-    var transitioningDelegate: DeckTransitioningDelegate?
-    
+    public var transitioningDelegate: DeckTransitioningDelegate?
+
     // MARK: - Private variables
-    
+
     private var isSwipeToDismissGestureEnabled = true
     private var pan: UIPanGestureRecognizer?
     private var scrollViewUpdater: ScrollViewUpdater?
-    
+
     private let backgroundView = UIView()
     private let roundedViewForPresentingView = RoundedView()
     private let roundedViewForPresentedView = RoundedView()
-    
+
     private let snapshotViewContainer = UIView()
     private var snapshotView: UIView?
-    
+
     private var snapshotViewTopConstraint: NSLayoutConstraint?
     private var snapshotViewWidthConstraint: NSLayoutConstraint?
     private var snapshotViewAspectRatioConstraint: NSLayoutConstraint?
-    
+
     private var presentedViewFrameObserver: NSKeyValueObservation?
     private var presentedViewTransformObserver: NSKeyValueObservation?
-    
+
     private var presentAnimation: (() -> ())? = nil
     private var presentCompletion: ((Bool) -> ())? = nil
     private var dismissAnimation: (() -> ())? = nil
     private var dismissCompletion: ((Bool) -> ())? = nil
-	
+
     private var dismissThreshold: CGFloat = 0
     private var extraVerticalInset: CGFloat = 0
-    
+
     // MARK: - Initializers
-    
-    convenience init(presentedViewController: UIViewController,
+
+    public convenience init(presentedViewController: UIViewController,
                      presenting presentingViewController: UIViewController?,
                      isSwipeToDismissGestureEnabled: Bool,
                      dismissThreshold: CGFloat,
@@ -563,7 +563,7 @@ open class DeckPresentationController: UIPresentationController, UIGestureRecogn
         return updater.isDismissEnabled
     }
     
-    @objc private func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
+    @objc public func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
         guard gestureRecognizer.isEqual(pan), isSwipeToDismissGestureEnabled else {
             return
         }
